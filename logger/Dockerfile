@@ -10,10 +10,10 @@ FROM golang:1.10-stretch
 #     unzip protoc.zip
 # RUN go get -u github.com/golang/protobuf/protoc-gen-go
 
-WORKDIR /go/src/github.com/fujimisakari/grpc-study/todo
+WORKDIR /go/src/github.com/fujimisakari/grpc-study/logger
 COPY . .
 
 RUN go get -d -v ./...
 RUN go build
 
-CMD ["todo"]
+CMD ["logger"]
