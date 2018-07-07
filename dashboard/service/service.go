@@ -12,7 +12,7 @@ import (
 
 type DashboardService struct{}
 
-func (s *DashboardService) Get(ctx context.Context, message *pb.GetMessage) (*todopb.GetResponse, error) {
+func (s *DashboardService) Get(ctx context.Context, message *pb.GetMessage) (*pb.Response, error) {
 	todoClient, err := client.NewTodo()
 	treq := &todopb.GetRequest{TargetCat: "tama"}
 	tres, err := todoClient.Get(context.TODO(), treq)
@@ -23,7 +23,7 @@ func (s *DashboardService) Get(ctx context.Context, message *pb.GetMessage) (*to
 	lres, err := loggerClient.GetCount(context.TODO(), lreq)
 	fmt.Println(lres)
 
-	res := &todopb.GetResponse{Name: "dashboard", Kind: "mainecoon"}
+	res := &pb.Response{Name: "dashboard", Kind: "mainecoon"}
 
 	return res, err
 }
