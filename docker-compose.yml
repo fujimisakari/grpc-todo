@@ -1,0 +1,18 @@
+version: '3.0'
+services:
+  dashboard:
+    build: dashboard
+    links:
+      - logger:logger
+      - todo:todo
+  logger:
+    build: logger
+  todo:
+    build: todo
+    links:
+      - logger:logger
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes

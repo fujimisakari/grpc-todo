@@ -10,11 +10,8 @@ FROM golang:1.10-stretch
 #     unzip protoc.zip
 # RUN go get -u github.com/golang/protobuf/protoc-gen-go
 
-# RUN go get -u github.com/fujimisakari/grpc-study/dashboard
+RUN go get -u github.com/fujimisakari/grpc-study/dashboard
 WORKDIR /go/src/github.com/fujimisakari/grpc-study/dashboard
-COPY . .
-
-RUN go get -d -v ./...
 RUN go build
 
 CMD ["dashboard"]
