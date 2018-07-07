@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+service Todo {
+  rpc Get (GetRequest) returns (GetResponse) {}
+  rpc Create (CreateRequest) returns (CreateResponse) {}
+  rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+}
+
+message GetRequest {
+  string target_cat = 1;
+}
+
+message GetResponse {
+  string name = 1;
+  string kind = 2;
+}
+
+message CreateRequest {
+  string target_cat = 1;
+}
+
+message CreateResponse {
+  string name = 1;
+  string kind = 2;
+}
+
+message DeleteRequest {
+  string target_cat = 1;
+}
+
+message DeleteResponse {
+  string name = 1;
+  string kind = 2;
+}
