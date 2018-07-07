@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+package api;
+
+service API {
+  rpc GetDashboard(EmptyRequest) returns (DashboardResponse) {
+    option (google.api.http) = {
+      get: "/dashboard"
+    };
+  }
+
+  rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {
+    option (google.api.http) = {
+      post: "/todo/create"
+      body: "*"
+    };
+  }
+
+  rpc DeleteTodo(DeleteTodoRequest) returns (DeleteTodoResponse) {
+    option (google.api.http) = {
+      get: "/todo/delete/{id}"
+    };
+  }
+}
+
+message EmptyRequest {}
+
+message CreateTodoRequest {
+  string todo = 1;
+}
+
+message DeleteTodoRequest {
+  string id = 1;
+}
+
+message DashboardResponse {
+  bool status =  1;
+}
+
+message CreateTodoResponse {
+  bool status =  1;
+}
+
+message DeleteTodoResponse {
+  bool status =  1;
+}
