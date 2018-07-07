@@ -15,12 +15,12 @@ type DashboardService struct{}
 func (s *DashboardService) Get(ctx context.Context, message *pb.GetMessage) (*pb.Response, error) {
 	todoClient, err := client.NewTodo()
 	treq := &todopb.GetRequest{TargetCat: "tama"}
-	tres, err := todoClient.Get(context.TODO(), treq)
+	tres, err := todoClient.Get(ctx, treq)
 	fmt.Println(tres)
 
 	loggerClient, err := client.NewLogger()
 	lreq := &loggerpb.GetCountRequest{TargetCat: "tama"}
-	lres, err := loggerClient.GetCount(context.TODO(), lreq)
+	lres, err := loggerClient.GetCount(ctx, lreq)
 	fmt.Println(lres)
 
 	res := &pb.Response{Name: "dashboard", Kind: "mainecoon"}

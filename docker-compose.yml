@@ -1,5 +1,11 @@
 version: '3.0'
 services:
+  api:
+    build: api
+    links:
+      - dashboard:dashboard
+      - logger:logger
+      - todo:todo
   dashboard:
     build: dashboard
     links:
