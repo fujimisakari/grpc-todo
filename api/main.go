@@ -52,8 +52,8 @@ func serveHTTP(grpcPort, httpPort int) error {
 }
 
 func main() {
-	port := 8080
-	grpcPort := 5000
+	port := 8000
+	grpcPort := 8080
 
 	errorch := make(chan error)
 	go func() {

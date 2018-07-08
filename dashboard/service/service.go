@@ -19,6 +19,11 @@ func (s *DashboardService) Get(ctx context.Context, message *pb.GetMessage) (*pb
 	fmt.Println(tres)
 
 	loggerClient, err := client.NewLogger()
+
+	lrem := &loggerpb.CountUpMessage{TargetCat: "tama"}
+	h, err := loggerClient.CountUp(ctx, lrem)
+	fmt.Println(h)
+
 	lreq := &loggerpb.GetCountRequest{TargetCat: "tama"}
 	lres, err := loggerClient.GetCount(ctx, lreq)
 	fmt.Println(lres)

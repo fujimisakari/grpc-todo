@@ -11,6 +11,7 @@ FROM golang:1.10-stretch
 # RUN go get -u github.com/golang/protobuf/protoc-gen-go
 
 RUN go get -u github.com/fujimisakari/grpc-study/logger
+RUN go get -u github.com/go-redis/redis
 WORKDIR /go/src/github.com/fujimisakari/grpc-study/logger
 RUN go build
 

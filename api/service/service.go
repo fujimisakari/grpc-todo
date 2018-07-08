@@ -13,6 +13,8 @@ type APIService struct{}
 
 func (s *APIService) GetDashboard(ctx context.Context, message *pb.EmptyRequest) (*pb.DashboardResponse, error) {
 	c, err := client.NewDashboard()
+	fmt.Println(c)
+	fmt.Println(err)
 	m := &dpb.GetMessage{TargetCat: "aa"}
 	res, err := c.Get(ctx, m)
 	fmt.Println(res)

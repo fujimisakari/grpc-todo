@@ -9,7 +9,7 @@ import (
 )
 
 func NewDashboard() (pb.DashboardClient, error) {
-	conn, err := grpc.Dial("todo:8080", grpc.WithInsecure())
+	conn, err := grpc.Dial("dashboard:8080", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal("client connection error:", err)
 		return nil, err
