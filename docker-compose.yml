@@ -4,35 +4,23 @@ services:
     build: ./api
     ports:
       - "8000:8000"
-    volumes:
-      - .:/go/src/github.com/fujimisakari/grpc-study
     links:
       - dashboard:dashboard
       - logger:logger
       - todo:todo
-    command: go run main.go
   dashboard:
     build: ./dashboard
-    volumes:
-      - .:/go/src/github.com/fujimisakari/grpc-study
     links:
       - logger:logger
       - todo:todo
-    command: go run main.go
   logger:
     build: ./logger
-    volumes:
-      - .:/go/src/github.com/fujimisakari/grpc-study
     links:
       - redis:redis
-    command: go run main.go
   todo:
     build: ./todo
-    volumes:
-      - .:/go/src/github.com/fujimisakari/grpc-study
     links:
       - logger:logger
-    command: go run main.go
   redis:
     image: redis:latest
     ports:
