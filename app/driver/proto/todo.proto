@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package todo;
+
+option go_package = "github.com/fujimisakari/grpc-todo/app/adapter/proto/pb";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service TodoService {
+  rpc ListTodo(ListTodoRequest) returns (ListTodoResponse) {
+    option (google.api.http) = {
+      get: "/v1/todo"
+    };
+  }
+
+  rpc GetTodo(GetTodoRequest) returns (Todo) {
+    option (google.api.http) = {
+      get: "/v1/todo/{todo_id}"
+    };
+  }
+
+  rpc CreateTodo(CreateTodoRequest) returns (Todo) {
+    option (google.api.http) = {
+      post: "/v1/todo"
+      body: "*"
+    };
+  }
+
+  rpc UpdateTodo(UpdateTodoRequest) returns (Todo) {
+    option (google.api.http) = {
+      put: "/v1/todo/{todo_id}"
+      body: "todo"
+    };
+  }
+
+  rpc UpdateTodotatus(UpdateTodoStatusRequest) returns (Todo) {
+    option (google.api.http) = {
+      patch: "/v1/todo/{todo_id}/status"
+      body: "*"
+    };
+  }
+
+  rpc DeleteTodo(DeleteTodoRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/todo/{todo_id}"
+    };
+  }
+}
+
+message Todo {
+  string todo_id = 1;
+  string title = 2;
+  string description = 3;
+  bool completed = 4;
+  TodoPriority priority = 5;
+  google.protobuf.Timestamp due_date = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  repeated string tags = 9;
+}
+
+enum TodoPriority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_LOW = 1;
+  PRIORITY_MEDIUM = 2;
+  PRIORITY_HIGH = 3;
+}
+
+message ListTodoRequest {
+  // ページネーション用のパラメータ
+  int32 page_size = 1;
+  string page_token = 2;
+  
+  // フィルタリングオプション
+  bool completed_filter = 3; // trueの場合は完了したタスクのみ、falseの場合は未完了のタスクのみ
+  TodoPriority priority_filter = 4; // 特定の優先度でフィルタリング
+  string tag_filter = 5; // 特定のタグでフィルタリング
+  
+  // ソートオプション
+  enum SortField {
+    SORT_FIELD_UNSPECIFIED = 0;
+    SORT_FIELD_DUE_DATE = 1;
+    SORT_FIELD_PRIORITY = 2;
+    SORT_FIELD_CREATED_AT = 3;
+  }
+  
+  SortField sort_by = 6;
+  bool descending = 7; // ソート順序（trueの場合は降順）
+}
+
+message ListTodoResponse {
+  repeated Todo todo = 1;
+  string next_page_token = 2;
+  int32 total_count = 3;
+}
+
+message GetTodoRequest {
+  string todo_id = 1;
+}
+
+message CreateTodoRequest {
+  string title = 1;
+  string description = 2;
+  TodoPriority priority = 3;
+  google.protobuf.Timestamp due_date = 4;
+  repeated string tags = 5;
+}
+
+message UpdateTodoRequest {
+  string todo_id = 1;
+  Todo todo = 2;
+}
+
+message UpdateTodoStatusRequest {
+  string todo_id = 1;
+  bool completed = 2;
+}
+
+message DeleteTodoRequest {
+  string todo_id = 1;
+}
