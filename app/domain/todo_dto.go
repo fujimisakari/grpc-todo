@@ -4,7 +4,6 @@ import "time"
 
 type TodoDto struct {
 	ID          string
-	UserID      string
 	Title       string
 	Description string
 	Priority    Priority

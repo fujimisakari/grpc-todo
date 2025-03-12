@@ -12,7 +12,6 @@ func (u *Usecase) GetTodo(ctx context.Context, todoID string) (*domain.Todo, err
 	yesterday := now.AddDate(0, 0, -1)
 	return &domain.Todo{
 		ID:          "ID",
-		UserID:      "userid",
 		Title:       "title",
 		Description: "description",
 		Priority:    domain.PRIORITY_HIGH,
