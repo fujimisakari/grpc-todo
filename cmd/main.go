@@ -15,6 +15,7 @@ import (
 	"github.com/fujimisakari/grpc-todo/app/driver/grpc"
 	"github.com/fujimisakari/grpc-todo/app/driver/http"
 	"github.com/fujimisakari/grpc-todo/app/driver/logger"
+	"github.com/fujimisakari/grpc-todo/app/driver/spanner"
 	"github.com/fujimisakari/grpc-todo/app/usecase"
 )
 
@@ -59,7 +60,8 @@ func realMain(_ []string) int {
 	// Add your own profiler or clinet or worker here.
 
 	// Create new GRPC server
-	usecase := usecase.NewUsecase(logger.FromContext)
+	repo := spanner.NewRepository()
+	usecase := usecase.NewUsecase(logger.FromContext, repo)
 	todoService := grpc_service.NewTodoService(usecase, logger.FromContext)
 	todoGRPC := grpc.New(env, todoService, log)
 

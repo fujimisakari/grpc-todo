@@ -18,4 +18,8 @@ func (f Logger) FromContext(ctx context.Context) *zap.Logger {
 // Usecase is  an interface for todo usecase.
 type Usecase interface {
 	GetTodo(ctx context.Context, todoID string) (*domain.Todo, error)
+	ListTodo(ctx context.Context) ([]*domain.Todo, error)
+	UpdateTodo(ctx context.Context, todo *domain.Todo) error
+	UpdateTodoStatus(ctx context.Context, todoID string, completed bool) error
+	DeleteTodo(ctx context.Context, todoID string) error
 }
