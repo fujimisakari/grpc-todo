@@ -27,23 +27,25 @@ func (s *todoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*p
 	return nil, status.Errorf(codes.Unimplemented, "method ListTodo not implemented")
 }
 
-func (s *todoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.Todo, error) {
+func (s *todoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.TodoResponse, error) {
 	todo, err := s.uc.GetTodo(ctx, req.GetTodoId())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get todo: %v", err)
 	}
-	return convTodoPb(todo), nil
+	return &pb.TodoResponse{
+		Todo: convTodoPb(todo),
+	}, nil
 }
 
-func (s *todoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.Todo, error) {
+func (s *todoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.TodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTodo not implemented")
 }
 
-func (s *todoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest) (*pb.Todo, error) {
+func (s *todoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest) (*pb.TodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodo not implemented")
 }
 
-func (s *todoService) UpdateTodotatus(ctx context.Context, req *pb.UpdateTodoStatusRequest) (*pb.Todo, error) {
+func (s *todoService) UpdateTodotatus(ctx context.Context, req *pb.UpdateTodoStatusRequest) (*pb.TodoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodotatus not implemented")
 }
 

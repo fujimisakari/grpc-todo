@@ -15,27 +15,27 @@ service TodoService {
     };
   }
 
-  rpc GetTodo(GetTodoRequest) returns (Todo) {
+  rpc GetTodo(GetTodoRequest) returns (TodoResponse) {
     option (google.api.http) = {
       get: "/v1/todo/{todo_id}"
     };
   }
 
-  rpc CreateTodo(CreateTodoRequest) returns (Todo) {
+  rpc CreateTodo(CreateTodoRequest) returns (TodoResponse) {
     option (google.api.http) = {
       post: "/v1/todo"
       body: "*"
     };
   }
 
-  rpc UpdateTodo(UpdateTodoRequest) returns (Todo) {
+  rpc UpdateTodo(UpdateTodoRequest) returns (TodoResponse) {
     option (google.api.http) = {
       put: "/v1/todo/{todo_id}"
       body: "todo"
     };
   }
 
-  rpc UpdateTodotatus(UpdateTodoStatusRequest) returns (Todo) {
+  rpc UpdateTodotatus(UpdateTodoStatusRequest) returns (TodoResponse) {
     option (google.api.http) = {
       patch: "/v1/todo/{todo_id}/status"
       body: "*"
@@ -120,4 +120,8 @@ message UpdateTodoStatusRequest {
 
 message DeleteTodoRequest {
   string todo_id = 1;
+}
+
+message TodoResponse {
+  Todo todo = 1;
 }
