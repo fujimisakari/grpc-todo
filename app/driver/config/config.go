@@ -19,6 +19,15 @@ type Environment struct {
 
 	GRPCPort int `envconfig:"GRPC_PORT" default:"5000"`
 	HTTPPort int `envconfig:"GRPC_PORT" default:"8000"`
+
+	*Spanner
+}
+
+// Spanner stores configuration settings for Google Cloud Spanner.
+type Spanner struct {
+	ProjectID  string `envconfig:"PROJECT_ID" default:"grpc-todo-spanner-emulator-project"`
+	InstanceID string `envconfig:"INSTANCE_ID" default:"grpc-todo-spanner-emulator-instance"`
+	DatabaseID string `envconfig:"DATABASE_ID" default:"grpc-todo-spanner-emulator-db"`
 }
 
 func (e *Environment) IsLocal() bool {

@@ -57,10 +57,18 @@ func realMain(_ []string) int {
 
 	logger.FromContext(ctx).Info("starting server...")
 
+	// DB connection
+	spannerClient, err := spanner.NewClient(ctx, env.Spanner)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "[ERROR] Failed to setup spanner client: %s\n", err)
+		return exitError
+	}
+	defer spannerClient.Close()
+
 	// Add your own profiler or clinet or worker here.
 
 	// Create new GRPC server
-	repo := spanner.NewRepository()
+	repo := spanner.NewRepository(spannerClient)
 	usecase := usecase.NewUsecase(logger.FromContext, repo)
 	todoService := grpc_service.NewTodoService(usecase, logger.FromContext)
 	todoGRPC := grpc.New(env, todoService, log)

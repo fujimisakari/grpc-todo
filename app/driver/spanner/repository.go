@@ -3,15 +3,21 @@ package spanner
 import (
 	"context"
 
+	"cloud.google.com/go/spanner"
+
 	"github.com/fujimisakari/grpc-todo/app/domain"
 	"github.com/fujimisakari/grpc-todo/app/domain/repository"
 )
 
 // Repository is an interface for repository.
-type Repository struct{}
+type Repository struct {
+	client *spanner.Client
+}
 
-func NewRepository() *Repository {
-	return &Repository{}
+func NewRepository(client *spanner.Client) *Repository {
+	return &Repository{
+		client: client,
+	}
 }
 
 func (r *Repository) Todo() repository.Todo {
