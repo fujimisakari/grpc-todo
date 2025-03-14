@@ -1,7 +1,7 @@
-//go:build tools
-// +build tools
+//go:build cmd
+// +build cmd
 
-package tools
+package cmd
 
 import (
 	_ "github.com/cloudspannerecosystem/spanner-cli"

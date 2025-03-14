@@ -1,4 +1,4 @@
-module github.com/fujimisakari/grpc-todo/tools
+module github.com/fujimisakari/grpc-todo/tools/cmd
 
 go 1.24
 
