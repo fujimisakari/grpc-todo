@@ -1,0 +1,22 @@
+INSERT INTO todos (Id, Title, Description, Priority, Completed, DueTime, CreatedAt, UpdatedAt)
+VALUES
+    ("1", "Buy groceries", "Milk, Bread, Butter", 2, FALSE, TIMESTAMP "2024-03-10T10:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("2", "Meeting with Bob", "Discuss project timeline", 3, FALSE, TIMESTAMP "2024-03-11T14:30:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("3", "Gym session", "Leg day workout", 1, FALSE, TIMESTAMP "2024-03-12T18:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("4", "Finish report", "Submit annual performance report", 3, TRUE, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("5", "Doctor appointment", "Regular health checkup", 2, FALSE, TIMESTAMP "2024-03-15T09:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("6", "Call mom", "Weekly catch-up call", 1, FALSE, TIMESTAMP "2024-03-16T20:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("7", "Prepare presentation", "For the quarterly review meeting", 3, FALSE, TIMESTAMP "2024-03-17T13:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("8", "Read book", "Finish reading 'Clean Code'", 1, FALSE, TIMESTAMP "2024-03-18T21:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("9", "Code review", "Review pull requests", 2, TRUE, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("10", "Write blog post", "Write about Go concurrency patterns", 2, FALSE, TIMESTAMP "2024-03-20T16:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("11", "Plan trip", "Plan summer vacation itinerary", 2, FALSE, TIMESTAMP "2024-03-22T08:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("12", "Fix bug #123", "Resolve issue in authentication module", 3, FALSE, TIMESTAMP "2024-03-25T15:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("13", "Update resume", "Add latest experience details", 2, FALSE, TIMESTAMP "2024-03-27T11:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("14", "Clean workspace", "Organize desk and files", 1, FALSE, TIMESTAMP "2024-03-28T12:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("15", "Watch tutorial", "Learn about Spanner best practices", 2, FALSE, TIMESTAMP "2024-03-29T19:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("16", "Volunteer work", "Help at local community center", 1, FALSE, TIMESTAMP "2024-03-30T17:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("17", "Review investment portfolio", "Analyze stock performance", 2, TRUE, NULL, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("18", "Submit tax documents", "File tax return for the year", 3, FALSE, TIMESTAMP "2024-04-01T10:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("19", "Attend conference", "Tech leadership summit", 3, FALSE, TIMESTAMP "2024-04-02T14:00:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+    ("20", "Cook dinner", "Try new pasta recipe", 1, FALSE, TIMESTAMP "2024-04-03T18:30:00Z", CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
