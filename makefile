@@ -1,10 +1,7 @@
-GIT_REF := $(shell git describe --always --tag)
-VERSION ?= commit-$(GIT_REF)
+-include .env
+export
 
-PROTO_PATH := ./app/driver/proto
-PD_PATH := ./app/adapter/pb
-
-export GOBIN := $(PWD)/bin
+GOBIN := $(PWD)/bin
 
 .PHONY: help
 help: ## show this help
@@ -16,6 +13,9 @@ dev: ## dev
 	@go run cmd/main.go
 
 ## build
+GIT_REF := $(shell git describe --always --tag)
+VERSION ?= commit-$(GIT_REF)
+
 build/server: ## server build
 	CGO_ENABLED=0 go build -o bin/server \
         -ldflags "-X main.version=$(VERSION)" \
@@ -25,10 +25,10 @@ build/server: ## server build
 test: ## test
 	@echo $(GOOGLEAPIS_PATH)
 
-## tools
+## instal tools command
 .PHONY: install-tools
-install-tools: ## install tools
-	@./tools/installer.sh
+install-tools: ## install tools command
+	@./tools/cmd/installer.sh
 
 ## formatter
 .PHONY: fmt/goimports
@@ -45,10 +45,13 @@ lint: ## run lint
 .PHONY: ensure-tidy
 ensure-tidy: ## check that go mod tidy have already done
 	@go mod tidy
-	@cd tools && go mod tidy
-	@git diff --exit-code go.mod go.sum tools/go.mod tools/go.sum
+	@cd tools/cmd && go mod tidy
+	@git diff --exit-code go.mod go.sum tools/cmd/go.mod tools/cmd/go.sum
 
 ## proto compile
+PROTO_PATH := ./app/driver/proto
+PD_PATH := ./app/adapter/pb
+
 proto/compile: proto/getting-googleapis ## proto compile
 	@$(eval GOOGLEAPIS_PATH := $(shell go list -m -json github.com/googleapis/googleapis | jq -r .Dir))
 	@echo "Using googleapis path: $(GOOGLEAPIS_PATH)"
@@ -65,4 +68,81 @@ proto/compile: proto/getting-googleapis ## proto compile
 proto/getting-googleapis: ## getting googleapis
 	@echo "Getting googleapis dependency..."
 	@go get github.com/googleapis/googleapis
+
+## spanner-emulator
+SPANNER_PROJECT=grpc-todo-spanner-emulator-project
+SPANNER_INSTANCE=grpc-todo-spanner-emulator-instance
+SPANNER_DATABASE=grpc-todo-spanner-emulator-db
+
+SPANNER_EMULATOR_CONTAINER_NAME := grpc-todo-spanner-emulator
+SPANNER_EMULATOR_RUNNING_PORT_CMD := docker port $(SPANNER_EMULATOR_CONTAINER_NAME) 9010/tcp 2> /dev/null | head -n 1 | rev | cut -d ":" -f1 | rev
+ifneq ($(shell $(SPANNER_EMULATOR_RUNNING_PORT_CMD)),)
+	SPANNER_EMULATOR_RUNNING_PORT := $(shell $(SPANNER_EMULATOR_RUNNING_PORT_CMD))
+	SPANNER_EMULATOR_HOST := localhost:$(SPANNER_EMULATOR_RUNNING_PORT)
+endif
+
+.PHONY: spanner-emulator/start
+spanner-emulator/start:  ## for local development
+	@if [ -z "$(SPANNER_EMULATOR_RUNNING_PORT)" ]; then \
+		docker run --rm -d --name $(SPANNER_EMULATOR_CONTAINER_NAME) -P gcr.io/cloud-spanner-emulator/emulator; \
+		make spanner-emulator/setup; \
+	fi
+
+.PHONY: spanner-emulator/stop
+spanner-emulator/stop:
+	@if [ -n "$(SPANNER_EMULATOR_RUNNING_PORT)" ]; then \
+		docker stop $(SPANNER_EMULATOR_CONTAINER_NAME); \
+	fi
+
+spanner-emulator/setup: spanner-emulator/createinstance wrench/create spanner-emulator/seed ## setup spanner emulator
+
+spanner-emulator/createinstance:  ## create spanner instance
+	@go run ./tools/spanner-emulator
+
+.PHONY: spanner-emulator/cli
+spanner-emulator/cli:
+	SPANNER_EMULATOR_HOST=$(SPANNER_EMULATOR_HOST) \
+	$(GOBIN)/spanner-cli --project $(SPANNER_PROJECT) --instance $(SPANNER_INSTANCE) --database $(SPANNER_DATABASE)
+
+spanner-emulator/seed:
+	@make wrench/apply DML=db/spanner/seed.sql
+
+## migrate
+WRENCH_OPTION := --project ${SPANNER_PROJECT} --instance ${SPANNER_INSTANCE} --database ${SPANNER_DATABASE}
+
+.PHONY: wrench/create
+wrench/create: ## create spanner database
+	$(GOBIN)/wrench create $(WRENCH_OPTION) --directory db/spanner
+
+.PHONY: wrench/drop
+wrench/drop: ## drop database in spanner
+	$(GOBIN)/wrench drop $(WRENCH_OPTION) --directory db/spanner
+
+.PHONY: wrench/reset
+wrench/reset: ## drop the database and then re-create
+	$(GOBIN)/wrench reset $(WRENCH_OPTION) --directory db/spanner
+
+.PHONY: wrench/load-schema
+wrench/load-schema:  ## update schema.sql from current database
+	$(GOBIN)/wrench load $(WRENCH_OPTION) --directory db/spanner
+
+.PHONY: wrench/apply
+wrench/apply:  ## apply single DML
+	$(GOBIN)/wrench apply $(WRENCH_OPTION) --dml $(DML)
+
+.PHONY: wrench/migrate
+wrench/migrate:  ## migrate by current migration files
+	$(GOBIN)/wrench migrate up $(WRENCH_OPTION)
+
+.PHONY: wrench/migrate-create
+wrench/migrate-create:  ## create a spanner's migration file
+	$(GOBIN)/wrench migrate create $(WRENCH_OPTION) --directory db/spanner
+
+.PHONY: wrench/migrate-set
+wrench/migrate-set:  ## update migration version and clear dirty flag, but don't run migration. argument: version=''
+	$(GOBIN)/wrench migrate set $(WRENCH_OPTION) $(version)
+
+.PHONY: wrench/migrate-version
+wrench/migrate-version:  ## show current migration version
+	$(GOBIN)/wrench migrate version $(WRENCH_OPTION)
 
