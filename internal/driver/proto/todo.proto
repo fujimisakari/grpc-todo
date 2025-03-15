@@ -50,12 +50,12 @@ service TodoService {
 }
 
 message Todo {
-  string todo_id = 1;
+  string id = 1;
   string title = 2;
   string description = 3;
   bool completed = 4;
   TodoPriority priority = 5;
-  google.protobuf.Timestamp due_date = 6;
+  google.protobuf.Timestamp due_time = 6;
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
   repeated string tags = 9;
@@ -69,25 +69,20 @@ enum TodoPriority {
 }
 
 message ListTodoRequest {
-  // ページネーション用のパラメータ
   int32 page_size = 1;
   string page_token = 2;
-  
-  // フィルタリングオプション
   bool completed_filter = 3; // trueの場合は完了したタスクのみ、falseの場合は未完了のタスクのみ
-  TodoPriority priority_filter = 4; // 特定の優先度でフィルタリング
-  string tag_filter = 5; // 特定のタグでフィルタリング
-  
-  // ソートオプション
+  TodoPriority priority_filter = 4; // Filter by a specific priority
+  string tag_filter = 5; // Filter by specific tags
+  SortField sort_by = 6;
+  bool descending = 7; // Sort order (decreased if true)
+
   enum SortField {
     SORT_FIELD_UNSPECIFIED = 0;
     SORT_FIELD_DUE_DATE = 1;
     SORT_FIELD_PRIORITY = 2;
     SORT_FIELD_CREATED_AT = 3;
   }
-  
-  SortField sort_by = 6;
-  bool descending = 7; // ソート順序（trueの場合は降順）
 }
 
 message ListTodoResponse {

@@ -49,8 +49,8 @@ ensure-tidy: ## check that go mod tidy have already done
 	@git diff --exit-code go.mod go.sum tools/cmd/go.mod tools/cmd/go.sum
 
 ## proto compile
-PROTO_PATH := ./app/driver/proto
-PD_PATH := ./app/adapter/pb
+PROTO_PATH := ./internal/driver/proto
+PD_PATH := ./internal/adapter/pb
 
 proto/compile: proto/getting-googleapis ## proto compile
 	@$(eval GOOGLEAPIS_PATH := $(shell go list -m -json github.com/googleapis/googleapis | jq -r .Dir))

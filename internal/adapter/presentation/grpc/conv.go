@@ -9,13 +9,14 @@ import (
 
 func convTodoPb(todo *domain.Todo) *pb.Todo {
 	return &pb.Todo{
-		TodoId:      todo.ID,
+		Id:          todo.ID,
 		Title:       todo.Title,
 		Description: todo.Description,
 		Priority:    pb.TodoPriority(todo.Priority),
 		Completed:   todo.Completed,
-		DueDate:     timestamppb.New(todo.DueTime),
+		DueTime:     timestamppb.New(todo.DueTime),
 		CreatedAt:   timestamppb.New(todo.CreatedAt),
+		UpdatedAt:   timestamppb.New(todo.UpdatedAt),
 	}
 }
 
@@ -34,6 +35,6 @@ func convTodoDomainFromUpdateTodoReq(req *pb.UpdateTodoRequest) *domain.Todo {
 		Title:       req.Todo.Title,
 		Description: req.Todo.Description,
 		Priority:    domain.Priority(req.Todo.Priority),
-		DueTime:     req.Todo.DueDate.AsTime(),
+		DueTime:     req.Todo.DueTime.AsTime(),
 	}
 }
