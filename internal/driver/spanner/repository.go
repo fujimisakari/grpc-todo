@@ -5,8 +5,8 @@ import (
 
 	"cloud.google.com/go/spanner"
 
-	"github.com/fujimisakari/grpc-todo/app/domain"
-	"github.com/fujimisakari/grpc-todo/app/domain/repository"
+	"github.com/fujimisakari/grpc-todo/internal/domain"
+	"github.com/fujimisakari/grpc-todo/internal/domain/repository"
 )
 
 // Repository is an interface for repository.

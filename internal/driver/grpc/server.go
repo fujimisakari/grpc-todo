@@ -9,10 +9,10 @@ import (
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 
-	"github.com/fujimisakari/grpc-todo/app/adapter/pb"
-	"github.com/fujimisakari/grpc-todo/app/driver/config"
-	"github.com/fujimisakari/grpc-todo/app/driver/grpc/interceptor"
-	"github.com/fujimisakari/grpc-todo/app/driver/logger"
+	"github.com/fujimisakari/grpc-todo/internal/adapter/pb"
+	"github.com/fujimisakari/grpc-todo/internal/driver/config"
+	"github.com/fujimisakari/grpc-todo/internal/driver/grpc/interceptor"
+	"github.com/fujimisakari/grpc-todo/internal/driver/logger"
 )
 
 type todoGRPC struct {

@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/fujimisakari/grpc-todo/app/domain/repository"
+import "github.com/fujimisakari/grpc-todo/internal/domain/repository"
 
 type Usecase struct {
 	logger Logger

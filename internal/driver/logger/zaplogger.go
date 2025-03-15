@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/fujimisakari/grpc-todo/app/driver/config"
+	"github.com/fujimisakari/grpc-todo/internal/driver/config"
 )
 
 func NewZapLogger(env *config.Environment) (*zap.Logger, error) {

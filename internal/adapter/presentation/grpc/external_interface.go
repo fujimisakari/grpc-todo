@@ -5,7 +5,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/fujimisakari/grpc-todo/app/domain"
+	"github.com/fujimisakari/grpc-todo/internal/domain"
 )
 
 // Logger is an interface for logging.

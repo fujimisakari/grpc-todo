@@ -3,8 +3,8 @@ package grpc
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/fujimisakari/grpc-todo/app/adapter/pb"
-	"github.com/fujimisakari/grpc-todo/app/domain"
+	"github.com/fujimisakari/grpc-todo/internal/adapter/pb"
+	"github.com/fujimisakari/grpc-todo/internal/domain"
 )
 
 func convTodoPb(todo *domain.Todo) *pb.Todo {

@@ -6,7 +6,7 @@ import (
 
 	"cloud.google.com/go/spanner"
 
-	"github.com/fujimisakari/grpc-todo/app/driver/config"
+	"github.com/fujimisakari/grpc-todo/internal/driver/config"
 )
 
 func NewClient(ctx context.Context, cfg *config.Spanner) (*spanner.Client, error) {

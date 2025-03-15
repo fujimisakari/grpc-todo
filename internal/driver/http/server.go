@@ -12,9 +12,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/fujimisakari/grpc-todo/app/adapter/pb"
-	"github.com/fujimisakari/grpc-todo/app/driver/config"
-	"github.com/fujimisakari/grpc-todo/app/driver/logger"
+	"github.com/fujimisakari/grpc-todo/internal/adapter/pb"
+	"github.com/fujimisakari/grpc-todo/internal/driver/config"
+	"github.com/fujimisakari/grpc-todo/internal/driver/logger"
 )
 
 type gatewayServer struct {

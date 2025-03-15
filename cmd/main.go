@@ -10,13 +10,13 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 
-	grpc_service "github.com/fujimisakari/grpc-todo/app/adapter/presentation/grpc"
-	"github.com/fujimisakari/grpc-todo/app/driver/config"
-	"github.com/fujimisakari/grpc-todo/app/driver/grpc"
-	"github.com/fujimisakari/grpc-todo/app/driver/http"
-	"github.com/fujimisakari/grpc-todo/app/driver/logger"
-	"github.com/fujimisakari/grpc-todo/app/driver/spanner"
-	"github.com/fujimisakari/grpc-todo/app/usecase"
+	grpc_service "github.com/fujimisakari/grpc-todo/internal/adapter/presentation/grpc"
+	"github.com/fujimisakari/grpc-todo/internal/driver/config"
+	"github.com/fujimisakari/grpc-todo/internal/driver/grpc"
+	"github.com/fujimisakari/grpc-todo/internal/driver/http"
+	"github.com/fujimisakari/grpc-todo/internal/driver/logger"
+	"github.com/fujimisakari/grpc-todo/internal/driver/spanner"
+	"github.com/fujimisakari/grpc-todo/internal/usecase"
 )
 
 const (

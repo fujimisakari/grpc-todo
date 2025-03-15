@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package todo;
 
-option go_package = "github.com/fujimisakari/grpc-todo/app/adapter/proto/pb";
+option go_package = "github.com/fujimisakari/grpc-todo/internal/adapter/proto/pb";
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";

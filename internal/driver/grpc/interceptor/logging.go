@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"google.golang.org/grpc"
 
-	"github.com/fujimisakari/grpc-todo/app/driver/logger"
+	"github.com/fujimisakari/grpc-todo/internal/driver/logger"
 )
 
 func WithLoggerInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {

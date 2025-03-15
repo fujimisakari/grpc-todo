@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/fujimisakari/grpc-todo/app/adapter/pb"
+	"github.com/fujimisakari/grpc-todo/internal/adapter/pb"
 )
 
 type todoService struct {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/fujimisakari/grpc-todo/app/domain"
+	"github.com/fujimisakari/grpc-todo/internal/domain"
 )
 
 func (u *Usecase) GetTodo(ctx context.Context, todoID string) (*domain.Todo, error) {

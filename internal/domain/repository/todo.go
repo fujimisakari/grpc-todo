@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/fujimisakari/grpc-todo/app/domain"
+	"github.com/fujimisakari/grpc-todo/internal/domain"
 )
 
 // Repository is an interface for repository.
