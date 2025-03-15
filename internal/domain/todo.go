@@ -1,11 +1,14 @@
 package domain
 
-type Todo TodoDto
+import "time"
 
-func (t *Todo) ToDto() *TodoDto {
-	return (*TodoDto)(t)
-}
-
-func (t *TodoDto) ToEntity() (*Todo, error) {
-	return (*Todo)(t), nil
+type Todo struct {
+	ID          string
+	Title       string
+	Description string
+	Priority    Priority
+	Completed   bool
+	DueTime     time.Time
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }

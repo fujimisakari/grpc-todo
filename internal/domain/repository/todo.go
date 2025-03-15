@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 
+	"cloud.google.com/go/spanner"
+
 	"github.com/fujimisakari/grpc-todo/internal/domain"
 )
 
@@ -13,15 +15,13 @@ type Repository interface {
 
 type Todo interface {
 	// GetTodo gets a todo by id.
-	GetTodoByID(ctx context.Context, id string) (*domain.Todo, error)
+	FindByID(ctx context.Context, ro YORODB, id string) (*domain.Todo, error)
 	// ListTodo lists todos.
-	ListTodo(ctx context.Context) ([]*domain.Todo, error)
-	// CreateTodo creates a todo.
-	CreateTodo(ctx context.Context, todo *domain.Todo) error
-	// UpdateTodo updates a todo.
-	UpdateTodo(ctx context.Context, todo *domain.Todo) error
-	// UpdateTodoStatus updates a todo status.
-	UpdateTodoStatus(ctx context.Context, id string, completed bool) error
-	// DeleteTodo deletes a todo.
-	DeleteTodo(ctx context.Context, id string) error
+	ListTodo(ctx context.Context, ro YORODB) ([]*domain.Todo, error)
+	// Insert creates a todo.
+	Insert(entity *domain.Todo) *spanner.Mutation
+	// Update updates a todo.
+	Update(entity *domain.Todo) *spanner.Mutation
+	// Deleten deletes a todo.
+	Delete(entity *domain.Todo) *spanner.Mutation
 }

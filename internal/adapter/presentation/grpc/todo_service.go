@@ -23,10 +23,6 @@ func NewTodoService(uc Usecase, l Logger) pb.TodoServiceServer {
 	}
 }
 
-func (s *todoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*pb.ListTodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTodo not implemented")
-}
-
 func (s *todoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.TodoResponse, error) {
 	todo, err := s.uc.GetTodo(ctx, req.GetTodoId())
 	if err != nil {
@@ -34,6 +30,20 @@ func (s *todoService) GetTodo(ctx context.Context, req *pb.GetTodoRequest) (*pb.
 	}
 	return &pb.TodoResponse{
 		Todo: convTodoPb(todo),
+	}, nil
+}
+
+func (s *todoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*pb.ListTodoResponse, error) {
+	todos, err := s.uc.ListTodo(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to list todo: %v", err)
+	}
+	var pbTodos []*pb.Todo
+	for _, todo := range todos {
+		pbTodos = append(pbTodos, convTodoPb(todo))
+	}
+	return &pb.ListTodoResponse{
+		Todo: pbTodos,
 	}, nil
 }
 

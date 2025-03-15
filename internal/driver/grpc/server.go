@@ -28,6 +28,7 @@ func New(env *config.Environment, todoService pb.TodoServiceServer, log *zap.Log
 			interceptor.WithLoggerInterceptor(log),
 			// write request and response logs verbosely with status code
 			interceptor.VerboseLoggingUnaryServerInterceptor(),
+			interceptor.WithRecoveryInterceptor(),
 		),
 	}
 

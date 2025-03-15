@@ -70,9 +70,9 @@ proto/getting-googleapis: ## getting googleapis
 	@go get github.com/googleapis/googleapis
 
 ## spanner-emulator
-SPANNER_PROJECT=grpc-todo-spanner-emulator-project
-SPANNER_INSTANCE=grpc-todo-spanner-emulator-instance
-SPANNER_DATABASE=grpc-todo-spanner-emulator-db
+SPANNER_PROJECT := grpc-todo-spanner-emulator-project
+SPANNER_INSTANCE := grpc-todo-spanner-emulator-instance
+SPANNER_DATABASE := grpc-todo-spanner-emulator-db
 
 SPANNER_EMULATOR_CONTAINER_NAME := grpc-todo-spanner-emulator
 SPANNER_EMULATOR_RUNNING_PORT_CMD := docker port $(SPANNER_EMULATOR_CONTAINER_NAME) 9010/tcp 2> /dev/null | head -n 1 | rev | cut -d ":" -f1 | rev
@@ -146,3 +146,15 @@ wrench/migrate-set:  ## update migration version and clear dirty flag, but don't
 wrench/migrate-version:  ## show current migration version
 	$(GOBIN)/wrench migrate version $(WRENCH_OPTION)
 
+## yo
+YO_OPTION := ${SPANNER_PROJECT} ${SPANNER_INSTANCE} ${SPANNER_DATABASE} --ignore-tables SchemaMigrations
+YO_DIR := ./internal/driver/spanner/repository
+DOMAIN_DIR := ./internal/domain/repository
+
+.PHONY: yo/generate
+yo/generate: ## generate yo template
+	@rm -f $(YO_DIR)/*.yo.go
+	@rm -f $(DOMAIN_DIR)/*.yo.go
+	@$(GOBIN)/yo $(YO_OPTION) --template-path $(YO_DIR)/templates/dto -o $(YO_DIR) --custom-types-file $(YO_DIR)/templates/custom_column_types.yml
+	@$(GOBIN)/yo $(YO_OPTION) --template-path $(YO_DIR)/templates/repository -o $(YO_DIR) --custom-types-file $(YO_DIR)/templates/custom_column_types.yml --suffix _repository.yo.go
+	@$(GOBIN)/yo $(YO_OPTION) --template-path $(YO_DIR)/templates/domain -o $(DOMAIN_DIR) --custom-types-file $(YO_DIR)/templates/custom_column_types.yml

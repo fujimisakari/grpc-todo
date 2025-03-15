@@ -16,6 +16,7 @@ import (
 	"github.com/fujimisakari/grpc-todo/internal/driver/http"
 	"github.com/fujimisakari/grpc-todo/internal/driver/logger"
 	"github.com/fujimisakari/grpc-todo/internal/driver/spanner"
+	spanner_repo "github.com/fujimisakari/grpc-todo/internal/driver/spanner/repository"
 	"github.com/fujimisakari/grpc-todo/internal/usecase"
 )
 
@@ -68,8 +69,8 @@ func realMain(_ []string) int {
 	// Add your own profiler or clinet or worker here.
 
 	// Create new GRPC server
-	repo := spanner.NewRepository(spannerClient)
-	usecase := usecase.NewUsecase(logger.FromContext, repo)
+	repo := spanner_repo.NewRepository()
+	usecase := usecase.NewUsecase(logger.FromContext, spannerClient, repo)
 	todoService := grpc_service.NewTodoService(usecase, logger.FromContext)
 	todoGRPC := grpc.New(env, todoService, log)
 
