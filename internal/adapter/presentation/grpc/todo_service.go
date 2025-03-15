@@ -48,17 +48,41 @@ func (s *todoService) ListTodo(ctx context.Context, req *pb.ListTodoRequest) (*p
 }
 
 func (s *todoService) CreateTodo(ctx context.Context, req *pb.CreateTodoRequest) (*pb.TodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTodo not implemented")
+	todo := convTodoDomainFromCreateTodoReq(req)
+	if err := s.uc.CreateTodo(ctx, todo); err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to create todo: %v", err)
+	}
+	return &pb.TodoResponse{
+		Todo: convTodoPb(todo),
+	}, nil
 }
 
 func (s *todoService) UpdateTodo(ctx context.Context, req *pb.UpdateTodoRequest) (*pb.TodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodo not implemented")
+	todo := convTodoDomainFromUpdateTodoReq(req)
+	if err := s.uc.UpdateTodo(ctx, todo); err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to update todo: %v", err)
+	}
+	return &pb.TodoResponse{
+		Todo: convTodoPb(todo),
+	}, nil
 }
 
 func (s *todoService) UpdateTodotatus(ctx context.Context, req *pb.UpdateTodoStatusRequest) (*pb.TodoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTodotatus not implemented")
+	if err := s.uc.UpdateTodoStatus(ctx, req.GetTodoId(), req.GetCompleted()); err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to update status: %v", err)
+	}
+	todo, err := s.uc.GetTodo(ctx, req.GetTodoId())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to get todo: %v", err)
+	}
+	return &pb.TodoResponse{
+		Todo: convTodoPb(todo),
+	}, nil
 }
 
 func (s *todoService) DeleteTodo(ctx context.Context, req *pb.DeleteTodoRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTodo not implemented")
+	if err := s.uc.DeleteTodo(ctx, req.GetTodoId()); err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to delete todo: %v", err)
+	}
+	return &emptypb.Empty{}, nil
 }

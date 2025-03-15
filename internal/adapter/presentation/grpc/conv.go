@@ -18,3 +18,22 @@ func convTodoPb(todo *domain.Todo) *pb.Todo {
 		CreatedAt:   timestamppb.New(todo.CreatedAt),
 	}
 }
+
+func convTodoDomainFromCreateTodoReq(req *pb.CreateTodoRequest) *domain.Todo {
+	return &domain.Todo{
+		Title:       req.Title,
+		Description: req.Description,
+		Priority:    domain.Priority(req.Priority),
+		DueTime:     req.DueDate.AsTime(),
+	}
+}
+
+func convTodoDomainFromUpdateTodoReq(req *pb.UpdateTodoRequest) *domain.Todo {
+	return &domain.Todo{
+		ID:          req.TodoId,
+		Title:       req.Todo.Title,
+		Description: req.Todo.Description,
+		Priority:    domain.Priority(req.Todo.Priority),
+		DueTime:     req.Todo.DueDate.AsTime(),
+	}
+}
