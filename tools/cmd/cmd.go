@@ -10,4 +10,5 @@ import (
 	_ "github.com/incu6us/goimports-reviser/v3"
 	_ "github.com/reviewdog/reviewdog/cmd/reviewdog"
 	_ "go.mercari.io/yo"
+	_ "go.uber.org/mock/mockgen"
 )
