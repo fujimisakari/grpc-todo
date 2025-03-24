@@ -48,6 +48,12 @@ ensure-tidy: ## check that go mod tidy have already done
 	@cd tools/cmd && go mod tidy
 	@git diff --exit-code go.mod go.sum tools/cmd/go.mod tools/cmd/go.sum
 
+## mock
+.PHONY: go/generate
+go/generate: ## run go generate
+	rm -rf internal/adapter/presentation/mock/* internal/domain/mock/* internal/mock/*
+	go generate ./...
+
 ## proto compile
 PROTO_PATH := ./internal/driver/proto
 PD_PATH := ./internal/adapter/pb
